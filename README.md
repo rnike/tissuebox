@@ -2,16 +2,13 @@
 
 A mobile game made by Flutter.
 
-## Getting Started
+## Build Enviroment
+'''
+Flutter 1.2.1 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 8661d8aecd (6 weeks ago) • 2019-02-14 19:19:53 -0800
+Engine • revision 3757390fa4
+Tools • Dart 2.1.2 (build 2.1.2-dev.0.0 0a7dcf17eb)
+;;;
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
-# tissuebox
+## How to play
+# TissueBox
