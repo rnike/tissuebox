@@ -42,9 +42,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/bg/bg1.jpg
-    - assets/images/tb/tb1.png
-    - assets/images/ts/ts1.png
+    - assets/images/bg/bg1
+    - assets/images/tb/tb1
+    - assets/images/tb/tb2
+    - assets/images/ts/ts1
     - assets/audio/ts1.mp3
     - assets/audio/ts2.mp3
     - assets/audio/ts3.mp3
