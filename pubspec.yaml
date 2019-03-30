@@ -42,15 +42,15 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/bg/bg1
-    - assets/images/tb/tb1
-    - assets/images/tb/tb2
-    - assets/images/ts/ts1
-    - assets/audio/ts1.mp3
-    - assets/audio/ts2.mp3
-    - assets/audio/ts3.mp3
-    - assets/audio/tick.mp3
-    - assets/audio/boxaway.mp3
+    - assets/images/bg1
+    - assets/images/tb1
+    - assets/images/tb2
+    - assets/images/ts1
+    - assets/audio/ts1
+    - assets/audio/ts2
+    - assets/audio/ts3
+    - assets/audio/tk
+    - assets/audio/ba
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

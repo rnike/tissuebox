@@ -1,19 +1,19 @@
-import 'dart:math';
-import 'package:flame/sprite.dart';
-import 'package:flutter/material.dart';
-import 'package:flame/util.dart';
-import 'package:flutter/services.dart';
-import 'package:flame/game.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flame/flame.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flame/sprite.dart';
+import 'package:flame/flame.dart';
+import 'package:flame/util.dart';
+import 'package:flame/game.dart';
+import 'dart:math';
 main()async{
  var u=Util();
  await u.fullScreen();
  await u.setOrientation(DeviceOrientation.portraitUp);
- Flame.images.loadAll(['bg/bg1','tb/tb1','tb/tb2','ts/ts1']);
- Flame.audio.loadAll(['ts1.mp3','ts2.mp3','ts3.mp3','boxaway.mp3']);
- var g=G(((await SharedPreferences.getInstance()).getInt('hs')??0));
+ Flame.audio.loadAll(['ts1','ts2','ts3','ba','tk']);
+ Flame.images.loadAll(['bg1','tb1','tb2','ts1']);
+ var g=G((await SharedPreferences.getInstance()).getInt('hs')??0);
  var h=HorizontalDragGestureRecognizer();
  var v=VerticalDragGestureRecognizer();
  h.onUpdate=g.du;
@@ -28,62 +28,62 @@ main()async{
 }
 enum Dg{tissue,box,none}
 class G extends Game{
- var bg=Sprite('bg/bg1');
- var ip=Offset(0,0);
- var dp=Offset(0,0);
+ var bg=Sprite('bg1');
+ var ip=Offset.zero;
+ var dp=Offset.zero;
  Dg m=Dg.none;
+ final e=true;
  var og=false;
- var ov=false;
+ var o=false;
  var pa=0.0;
  double ts;
  double sx;
- TB tB;
  int h=0;
  int s=0;
- int n=0;
  int l=0;
  Size sS;
  Rect r;
+ TB b;
  init()async{
   resize(await Flame.util.initialDimensions());
-  tB=TB(this);
   r=Rect.fromLTWH(0,sS.height-ts*23,ts*9,ts*23);
+  b=TB(this);
  }
  sh()async=>await(await SharedPreferences.getInstance()).setInt('hs',h); 
  G(this.h){init();}
  @override
  render(c){
-   var k=sS.width/5/ts;
-  tpaint(s,o,fs){
-   var tp=TextPainter(text:TextSpan(style:TextStyle(color:Colors.black,fontSize:fs),text:s),textScaleFactor:k, textDirection:TextDirection.ltr);
+  var k=sS.width/5/ts;
+  tx(s,o,f){
+   var tp=TextPainter(text:TextSpan(style:TextStyle(color:Colors.black,fontSize:f),text:s),textScaleFactor:k,textDirection:TextDirection.ltr);
    tp.layout();
    tp.paint(c,Offset(o.dx-tp.width/2,o.dy));
   }
   bg.renderRect(c,r);
-  tB.render(c);
-  var ct=tB.il+tB.r.width/2;
-  if(og)tpaint(pa.toStringAsFixed(pa<1?1:0),Offset(ct,tB.it+tB.r.height+10),20.0);
-  tpaint(s.toString(),Offset(ct,k*50),20.0);
+  b.render(c);
+  var ct=b.il+b.r.width/2;
+  if(og)tx(pa.toStringAsFixed(pa<1?1:0),Offset(ct,b.it+b.r.height+10),20.0);
+  tx(h.toString(),Offset(ct,k*10),20.0);
+  tx(s.toString(),Offset(ct,k*50),20.0);
   h=s>h?s:h;
-  tpaint('Highest: '+h.toString(),Offset(ct,k*10),20.0);
  }
  @override
  update(t){
-  tB.update(t);
-  pa-=og||ov?t:0;
-  if(pa<=0&&og){
-   tB.aw=true;
-   og=false;
-   ov=true;
+  b.update(t);
+  pa-=og||o?t:0;
+  if(pa<0&&og){
+   b.a=e;
+   og=!e;
+   o=e;
    pa=2;
    sh();
-   tB.nG();
-  }else if(og&&!ov){
+   b.nG();
+  }else if(og&&!o){
    var v=pa.floor();
-   if(v<l&&v<6&&v!=0)Flame.audio.play('tick.mp3',volume:0.3);
+   if(v<l&&v<6&&v!=0)Flame.audio.play('tk',volume:0.3);
    l=v;
   }
-  ov=pa<=0&&ov?false:ov;
+  o=pa<=0&&o?!e:o;
  }
  resize(s){
   sS=s;
@@ -91,83 +91,82 @@ class G extends Game{
  }
  ds(d){
   var p=d.globalPosition;
-  m=tB.ti.r.contains(p)?Dg.tissue:tB.r.contains(p)?Dg.box:Dg.none;
+  m=b.ti.r.contains(p)?Dg.tissue:b.r.contains(p)?Dg.box:Dg.none;
   ip=Offset(p.dx==0?ip.dx:p.dx,p.dy==0?ip.dy:p.dy);
-  sx=(tB.ti.r.left-p.dx).abs();
+  sx=(b.ti.r.left-p.dx).abs();
  }
  du(d){
-  if(ov||m==Dg.none)return;
+  if(o||m==Dg.none)return;
   var p=d.globalPosition;
   dp=Offset(p.dx==0?dp.dx:p.dx,p.dy==0?dp.dy:p.dy);
   if(m==Dg.tissue){
    if(ip.dy-dp.dy>100){
-   if(og==false&&ov==false){
-    pa=10;
-    s=0;
-    og=true;
-   }
-    var st=(sx-(tB.ti.r.left-p.dx).abs()).abs();
+    if(og!=e&&o!=e){
+     og=e;
+     pa=10;
+     s=0;
+    }
+    var st=(sx-(b.ti.r.left-p.dx).abs()).abs();
     var sa=st<3?3:st<6?2:1;
+    m=Dg.none;
+    b.nT(sa);
     t(sa);
     s+=sa;
-    tB.nT(sa);
-    m=Dg.none;
    }
   }else if(m==Dg.box){
-   tB.mo=true;
-   tB.r=Rect.fromLTWH(tB.il+dp.dx-ip.dx,tB.r.top,TB.w,TB.h);
+   b.r=Rect.fromLTWH(b.il+dp.dx-ip.dx,b.r.top,TB.w,TB.h);
+   b.m=e;
   }
  }
- t(i)=>Flame.audio.play('ts$i.mp3',volume:0.2);
- de(details){
-  ip=Offset(0,0);
-  dp=ip;
+ t(i)=>Flame.audio.play('ts$i',volume:0.2);
+ de(d){
+  ip=Offset.zero;
+  b.ti.m=!e;
+  b.m=!e;
   m=Dg.none;
-  tB.mo=false;
-  tB.ti.mov=false;
+  dp=ip;
  }
 }
 class TB{
- Rect get ir=>Rect.fromLTWH(r.center.dx-T.wh/2,r.top-r.height+10,T.wh,T.ht);
- Offset get tu=>Offset(ir.left,ir.top-200);
- double get il=>g.sS.width/2-TB.w/2;
+ Rect get ir=>Rect.fromLTWH(r.center.dx-T.w/2,r.top-r.height+7,T.w,T.h);
+ Offset get u=>Offset(ir.left,ir.top-200);
  double get it=>g.sS.height-g.ts*5.5;
- var tr=List<TA>();
+ double get il=>g.sS.width/2-TB.w/2;
  static var w=150.0;
  static var h=100.0;
- var rn=Random();
- var mo=false;
- var aw=false;
+ var l=List<TA>();
+ var y=Random();
+ var m=false;
+ var a=false;
  final G g;
  Sprite b;
- T ti;
  Rect r;
  int tc;
- Sprite get gb=>rn.nextInt(10)%2==0?Sprite('tb/tb1'):Sprite('tb/tb2');
+ T ti;
+ Sprite get gb=>y.nextInt(10)%2==0?Sprite('tb1'):Sprite('tb2');
  TB(this.g){
-  r=Rect.fromLTWH(il,it,TB.w,TB.h); 
-  b=gb;
-  tc=10-rn.nextInt(5);
+  r=Rect.fromLTWH(il,it,TB.w,TB.h);
+  tc=10-y.nextInt(5);
   ti=T(g,this);
+  b=gb;
  }
- 
  render(c){
   b.renderRect(c,r);
-  ti.render(c);
-  tr.forEach((x)=>x.render(c));
+  ti.rd(c);
+  l.forEach((x)=>x.rd(c));
  }
  update(t){
-  ti.update(t);
-  tr.removeWhere((x)=>x.a);
-  tr.forEach((x)=>x.update(t));
+  ti.ud(t);
+  l.removeWhere((x)=>x.a);
+  l.forEach((x)=>x.ud(t));
   var v=(r.left-il);
-  if(mo&&!g.ov){
-   if(v.abs()>50&&tc==0)aw=true;
-  }else if(aw&&!g.ov){
+  if(m&&!g.o){
+   if(v.abs()>50&&tc==0)a=g.e;
+  }else if(a&&!g.o){
    r=r.shift(Offset(v>0?r.left+20:r.left-20,r.top));
    if((r.right<-50||r.left>g.sS.width+50))nB();
-  }else if(aw&&g.ov){
-   var o=Offset(r.left,g.sS.height+T.ht)-Offset(r.left,r.top);
+  }else if(a&&g.o){
+   var o=Offset(r.left,g.sS.height+T.h)-Offset(r.left,r.top);
    r=r.shift((20<o.distance)?Offset.fromDirection(o.direction,20):o);
   }else{
    var o=Offset(il,it)-Offset(r.left,r.top);
@@ -176,45 +175,45 @@ class TB{
  }
  nT(i){
   var d=Duration(milliseconds: 100);
-  tr.add(TA(g,this));
-  if(i>1)Future.delayed(d,(){tr.add(TA(g,this));
-  if(i>2)Future.delayed(d,(){tr.add(TA(g,this));});});
+  l.add(TA(g,this));
+  if(i>1)Future.delayed(d,(){l.add(TA(g,this));
+  if(i>2)Future.delayed(d,(){l.add(TA(g,this));});});
   ti=T(g,this,--tc==0);
  }
  nB(){
   b=gb;
   r=Rect.fromLTWH((r.right<-50)?g.sS.width+50:-50,it,TB.w,TB.h);
-  tc=10-rn.nextInt(5);
+  tc=10-y.nextInt(5);
   ti=T(g,this);
-  aw=false;
-  mo=false;
+  a=!g.e;
+  m=!g.e;
  }
  nG()async{
-  aw=true;
-  Flame.audio.play('boxaway.mp3',volume:0.3);
+  a=g.e;
+  Flame.audio.play('ba',volume:0.3);
   await Future.delayed(Duration(milliseconds:2000));
   nB();
  }
 } 
 class T{
- var sp=Sprite('ts/ts1');
- static var ht=100.0;
- static var wh=100.0;
+ var s=Sprite('ts1');
+ static var h=100.0;
+ static var w=100.0;
+ var m=false;
+ final TB b;
  final G g;
- var mov=false;
- final TB bx;
  bool a;
  Rect r;
- T(this.g,this.bx,[this.a=false]){r=bx.ir;}
- render(c)=>sp.renderRect(c,r);
- update(t)=>r=a?r.shift(Offset(-500,-500)):bx.ir;
+ T(this.g,this.b,[this.a=false]){r=b.ir;}
+ rd(c)=>s.renderRect(c,r);
+ ud(t)=>r=a?r.shift(Offset(-500,-500)):b.ir;
 } 
 class TA extends T{
- TA(G g,TB bx):super(g,bx);
- render(c)=>sp.renderRect(c,r);
- update(t){
+ TA(G g,TB b):super(g,b);
+ rd(c)=>s.renderRect(c,r);
+ ud(t){
   var s=500*t;
-  Offset o=bx.tu-Offset(r.left,r.top);
-  if(s<o.distance)r=r.shift(Offset.fromDirection(o.direction,s));else a=true;
+  Offset o=b.u-Offset(r.left,r.top);
+  if(s<o.distance)r=r.shift(Offset.fromDirection(o.direction,s));else a=g.e;
  }
 }
