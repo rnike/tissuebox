@@ -12,7 +12,13 @@ A mobile phone game made by Flutter.
 - Images
     1. Tissue Box - yum6503
     2. Tissue - yum6503
-    3. Tissue Box - yum6503
+    3. Background - yum6503
+    4. Crown - yum6503
+- Audio
+    1. Tissue - yum6503
+    2. Tick Tock - yum6503
+    3. Game Over - yum6503
+    
 ## Build Info
 ```
 $ flutter --version
