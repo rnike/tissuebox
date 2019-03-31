@@ -11,7 +11,8 @@ main()async{
  var u=Util();
  await u.fullScreen();
  await u.setOrientation(DeviceOrientation.portraitUp);
- Flame.audio.loadAll(['t1','t2','t3','a','tk']);
+ var m='.mp3';
+ Flame.audio.loadAll(['t1$m','t2$m','t3$m','a$m','tk$m']);
  Flame.images.loadAll(['bg1','b0','b1','b2','t1','c']);
  var g=G((await SharedPreferences.getInstance()).getInt('hs')??0);
  var h=HorizontalDragGestureRecognizer();
@@ -74,16 +75,16 @@ class G extends Game{
   b.update(t);
   u-=g||o?t:0;
   if(u<0&&g){
-   b.a=e;
-   g=!e;
-   u=2;
-   o=e;
-   sh();
-   b.nG();
+  b.a=e;
+  g=!e;
+  u=2;
+  o=e;
+  sh();
+  b.nG();
   }else if(g&&!o){
-   var v=u.floor();
-   if(v<l&&v<6&&v!=0)Future.delayed(Duration(milliseconds:200),()=>Flame.audio.play('tk'));
-   l=v;
+  var v=u.floor();
+  if(v<l&&v<6&&v!=0)Future.delayed(Duration(milliseconds:200),()=>Flame.audio.play('tk.mp3'));
+  l=v;
   }
   o=u<=0&&o?!e:o;
  }
@@ -102,25 +103,25 @@ class G extends Game{
   var p=d.globalPosition;
   dp=Offset(p.dx==0?dp.dx:p.dx,p.dy==0?dp.dy:p.dy);
   if(m==Dg.tissue){
-   if(ip.dy-dp.dy>100){
-    if(g!=e&&o!=e){
-     g=e;
-     u=10;
-     s=0;
-    }
-    var st=(sx-(b.ti.r.left-p.dx).abs()).abs();
-    var sa=st<3?3:st<6?2:1;
-    m=Dg.none;
-    b.nT(sa);
-    t(sa);
-    s+=sa;
-   }
+  if(ip.dy-dp.dy>100){
+  if(g!=e&&o!=e){
+  g=e;
+  u=10;
+  s=0;
+  }
+  var st=(sx-(b.ti.r.left-p.dx).abs()).abs();
+  var sa=st<3?3:st<6?2:1;
+  m=Dg.none;
+  b.nT(sa);
+  t(sa);
+  s+=sa;
+  }
   }else if(m==Dg.box){
-   b.r=Rect.fromLTWH(b.il+dp.dx-ip.dx,b.r.top,B.q.dx,B.q.dy);
-   b.m=e;
+  b.r=Rect.fromLTWH(b.il+dp.dx-ip.dx,b.r.top,B.q.dx,B.q.dy);
+  b.m=e;
   }
  }
- t(i)=>Flame.audio.play('t$i',volume:0.2);
+ t(i)=>Flame.audio.play('t$i.mp3',volume:0.2);
  de(d){
   ip=Offset.zero;
   b.ti.m=!e;
@@ -133,8 +134,8 @@ class B{
  Rect get ir=>Rect.fromLTWH(r.center.dx-T.w/2,r.top-r.height+15,T.w,T.w);
  Sprite get gb=>Sprite('b'+y.nextInt(3).toString());
  Offset get u=>Offset(ir.left,ir.top-150);
- double get it=>g.sS.height-g.ts*5.5;
  double get il=>g.sS.width/2-B.q.dx/2;
+ double get it=>g.sS.height-g.ts*5.5;
  static var q=Offset(150,100);
  var l=List<TA>();
  var y=Random();
@@ -157,21 +158,21 @@ class B{
   l.forEach((x)=>x.rd(c));
  }
  update(t){
-  ti.ud(t);
+  ti.u(t);
   l.removeWhere((x)=>x.a);
-  l.forEach((x)=>x.ud(t));
+  l.forEach((x)=>x.u(t));
   var v=r.left-il;
   if(m&&!g.o){
-   if(v.abs()>50&&tc==0)a=g.e;
+  if(v.abs()>50&&tc==0)a=g.e;
   }else if(a&&!g.o){
-   r=r.shift(Offset(v>0?r.left+g.k*11:r.left-g.k*11,r.top));
-   if(r.right<-50||r.left>g.sS.width+50)nB();
+  r=r.shift(Offset(v>0?r.left+g.k*11:r.left-g.k*11,r.top));
+  if(r.right<-50||r.left>g.sS.width+50)nB();
   }else if(a&&g.o){
-   var o=Offset(r.left,g.sS.height+T.w)-Offset(r.left,r.top);
-   r=r.shift(g.k*11<o.distance?Offset.fromDirection(o.direction,g.k*11):o);
+  var o=Offset(r.left,g.sS.height+T.w)-Offset(r.left,r.top);
+  r=r.shift(g.k*11<o.distance?Offset.fromDirection(o.direction,g.k*11):o);
   }else{
-   var o=Offset(il,it)-Offset(r.left,r.top);
-   r=r.shift(g.k*11<o.distance?Offset.fromDirection(o.direction,g.k*11):o);
+  var o=Offset(il,it)-Offset(r.left,r.top);
+  r=r.shift(g.k*11<o.distance?Offset.fromDirection(o.direction,g.k*11):o);
   }
  }
  nT(i){
@@ -191,7 +192,7 @@ class B{
  }
  nG()async{
   a=g.e;
-  Flame.audio.play('a',volume:0.5);
+  Flame.audio.play('a.mp3',volume:0.5);
   await Future.delayed(Duration(seconds:2));
   nB();
  }
@@ -206,12 +207,12 @@ class T{
  Rect r;
  T(this.g,this.b,[this.a=false]){r=b.ir;}
  rd(c)=>s.renderRect(c,r);
- ud(t)=>r=a?r.shift(Offset.infinite):b.ir;
+ u(t)=>r=a?r.shift(Offset.infinite):b.ir;
 }
 class TA extends T{
  TA(G g,B b):super(g,b);
  rd(c)=>s.renderRect(c,r);
- ud(t){
+ u(t){
   var s=500*t;
   Offset o=b.u-Offset(r.left,r.top);
   if(s<o.distance)r=r.shift(Offset.fromDirection(o.direction,s));else a=g.e;

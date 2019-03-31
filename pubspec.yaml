@@ -20,11 +20,11 @@ flutter:
     - assets/images/b1
     - assets/images/b2
     - assets/images/t1
-    - assets/audio/t1
-    - assets/audio/t2
-    - assets/audio/t3
-    - assets/audio/tk
-    - assets/audio/a
+    - assets/audio/t1.mp3
+    - assets/audio/t2.mp3
+    - assets/audio/t3.mp3
+    - assets/audio/tk.mp3
+    - assets/audio/a.mp3
   fonts:
     - family: NS
       fonts:
