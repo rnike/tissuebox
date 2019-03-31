@@ -12,7 +12,7 @@ main()async{
  await u.fullScreen();
  await u.setOrientation(DeviceOrientation.portraitUp);
  Flame.audio.loadAll(['ts1','ts2','ts3','ba','tk']);
- Flame.images.loadAll(['bg1','tb1','tb2','ts1']);
+ Flame.images.loadAll(['bg1','tb0','tb1','tb2','ts1','crown']);
  var g=G((await SharedPreferences.getInstance()).getInt('hs')??0);
  var h=HorizontalDragGestureRecognizer();
  var v=VerticalDragGestureRecognizer();
@@ -28,7 +28,9 @@ main()async{
 }
 enum Dg{tissue,box,none}
 class G extends Game{
+ double get k=>sS.width/5/ts;
  var bg=Sprite('bg1');
+ var cr=Sprite('crown');
  var ip=Offset.zero;
  var dp=Offset.zero;
  Dg m=Dg.none;
@@ -49,22 +51,22 @@ class G extends Game{
   r=Rect.fromLTWH(0,sS.height-ts*23,ts*9,ts*23);
   b=TB(this);
  }
- sh()async=>await(await SharedPreferences.getInstance()).setInt('hs',h); 
+ sh()async=>await(await SharedPreferences.getInstance()).setInt('hs',h);
  G(this.h){init();}
  @override
  render(c){
-  var k=sS.width/5/ts;
-  tx(s,o,f){
-   var tp=TextPainter(text:TextSpan(style:TextStyle(color:Colors.black,fontSize:f),text:s),textScaleFactor:k,textDirection:TextDirection.ltr);
-   tp.layout();
-   tp.paint(c,Offset(o.dx-tp.width/2,o.dy));
+ tx(s,o,u,f,[b=false]){
+   var t=TextPainter(text:TextSpan(style:TextStyle(color:b?Colors.black:Colors.white,fontSize:f,fontFamily:'NotoSans'),text:s),textScaleFactor:k,textDirection:TextDirection.ltr);
+   t.layout();
+   t.paint(c,u?Offset(o.dx-t.width/2,o.dy):o);
   }
   bg.renderRect(c,r);
   b.render(c);
   var ct=b.il+b.r.width/2;
-  if(og)tx(pa.toStringAsFixed(pa<1?1:0),Offset(ct,b.it+b.r.height+10),20.0);
-  tx(h.toString(),Offset(ct,k*10),20.0);
-  tx(s.toString(),Offset(ct,k*50),20.0);
+  if(og)tx(pa.toStringAsFixed(pa<1?1:0),Offset(ct,b.it+b.r.height+10),true,k*10,true);
+  tx(h.toString(),Offset(60,k*5),false,k*12);
+  cr.renderRect(c,Rect.fromLTWH(5,k*10,49.2,39));
+  tx(s.toString(),Offset(ct,k*50),true,k*25);
   h=s>h?s:h;
  }
  @override
@@ -74,8 +76,8 @@ class G extends Game{
   if(pa<0&&og){
    b.a=e;
    og=!e;
-   o=e;
    pa=2;
+   o=e;
    sh();
    b.nG();
   }else if(og&&!o){
@@ -114,7 +116,7 @@ class G extends Game{
     s+=sa;
    }
   }else if(m==Dg.box){
-   b.r=Rect.fromLTWH(b.il+dp.dx-ip.dx,b.r.top,TB.w,TB.h);
+   b.r=Rect.fromLTWH(b.il+dp.dx-ip.dx,b.r.top,TB.q.dx,TB.q.dy);
    b.m=e;
   }
  }
@@ -128,12 +130,12 @@ class G extends Game{
  }
 }
 class TB{
- Rect get ir=>Rect.fromLTWH(r.center.dx-T.w/2,r.top-r.height+7,T.w,T.h);
- Offset get u=>Offset(ir.left,ir.top-200);
+ Rect get ir=>Rect.fromLTWH(r.center.dx-T.w/2,r.top-r.height+15,T.w,T.w);
+ Sprite get gb=>Sprite('tb'+y.nextInt(3).toString());
+ Offset get u=>Offset(ir.left,ir.top-150);
  double get it=>g.sS.height-g.ts*5.5;
- double get il=>g.sS.width/2-TB.w/2;
- static var w=150.0;
- static var h=100.0;
+ double get il=>g.sS.width/2-TB.q.dx/2;
+ static var q=Offset(150,100);
  var l=List<TA>();
  var y=Random();
  var m=false;
@@ -143,9 +145,8 @@ class TB{
  Rect r;
  int tc;
  T ti;
- Sprite get gb=>y.nextInt(10)%2==0?Sprite('tb1'):Sprite('tb2');
  TB(this.g){
-  r=Rect.fromLTWH(il,it,TB.w,TB.h);
+  r=Rect.fromLTWH(il,it,q.dx,q.dy);
   tc=10-y.nextInt(5);
   ti=T(g,this);
   b=gb;
@@ -159,22 +160,22 @@ class TB{
   ti.ud(t);
   l.removeWhere((x)=>x.a);
   l.forEach((x)=>x.ud(t));
-  var v=(r.left-il);
+  var v=r.left-il;
   if(m&&!g.o){
    if(v.abs()>50&&tc==0)a=g.e;
   }else if(a&&!g.o){
-   r=r.shift(Offset(v>0?r.left+20:r.left-20,r.top));
-   if((r.right<-50||r.left>g.sS.width+50))nB();
+   r=r.shift(Offset(v>0?r.left+g.k*11:r.left-g.k*11,r.top));
+   if(r.right<-50||r.left>g.sS.width+50)nB();
   }else if(a&&g.o){
-   var o=Offset(r.left,g.sS.height+T.h)-Offset(r.left,r.top);
-   r=r.shift((20<o.distance)?Offset.fromDirection(o.direction,20):o);
+   var o=Offset(r.left,g.sS.height+T.w)-Offset(r.left,r.top);
+   r=r.shift(g.k*11<o.distance?Offset.fromDirection(o.direction,g.k*11):o);
   }else{
    var o=Offset(il,it)-Offset(r.left,r.top);
-   r=r.shift((20<o.distance)?Offset.fromDirection(o.direction,20):o);
+   r=r.shift(g.k*11<o.distance?Offset.fromDirection(o.direction,g.k*11):o);
   }
  }
  nT(i){
-  var d=Duration(milliseconds: 100);
+  var d=Duration(milliseconds:100);
   l.add(TA(g,this));
   if(i>1)Future.delayed(d,(){l.add(TA(g,this));
   if(i>2)Future.delayed(d,(){l.add(TA(g,this));});});
@@ -182,7 +183,7 @@ class TB{
  }
  nB(){
   b=gb;
-  r=Rect.fromLTWH((r.right<-50)?g.sS.width+50:-50,it,TB.w,TB.h);
+  r=Rect.fromLTWH(r.right<-0?g.sS.width+50-q.dx:-50,it,q.dx,q.dy);
   tc=10-y.nextInt(5);
   ti=T(g,this);
   a=!g.e;
@@ -191,13 +192,12 @@ class TB{
  nG()async{
   a=g.e;
   Flame.audio.play('ba',volume:0.3);
-  await Future.delayed(Duration(milliseconds:2000));
+  await Future.delayed(Duration(seconds:2));
   nB();
  }
 } 
 class T{
  var s=Sprite('ts1');
- static var h=100.0;
  static var w=100.0;
  var m=false;
  final TB b;
@@ -206,8 +206,8 @@ class T{
  Rect r;
  T(this.g,this.b,[this.a=false]){r=b.ir;}
  rd(c)=>s.renderRect(c,r);
- ud(t)=>r=a?r.shift(Offset(-500,-500)):b.ir;
-} 
+ ud(t)=>r=a?r.shift(Offset.infinite):b.ir;
+}
 class TA extends T{
  TA(G g,TB b):super(g,b);
  rd(c)=>s.renderRect(c,r);
