@@ -65,8 +65,8 @@ class G extends Game{
   b.render(c);
   var ct=b.il+b.r.width/2;
   if(g)tx(u.toStringAsFixed(u<1?1:0),Offset(ct,b.it+b.r.height+10),true,k*10,true);
-  tx(h.toString(),Offset(65,k*16),false,k*12);
-  cr.renderRect(c,Rect.fromLTWH(10,k*21,49.2,39));
+  tx(h.toString(),Offset(33,k*30),false,k*12);
+  cr.renderRect(c,Rect.fromLTWH(28,k*10,49.2,39));
   tx(s.toString(),Offset(ct,k*50),true,k*25);
   h=s>h?s:h;
  }
