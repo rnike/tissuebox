@@ -25,16 +25,18 @@ runApp(g.widget);
 u.addGestureRecognizer(h);
 u.addGestureRecognizer(v);
 }
-enum Dg{tissue,box,none}
-class G extends Game{
-var a1=AudioPool('t1$y',maxPlayers:9,prefix:d);
-var a2=AudioPool('t2$y',maxPlayers:9,prefix:d);
-var a3=AudioPool('t3$y',maxPlayers:9,prefix:d);
-var a4=AudioPool('tk$y',maxPlayers:9,prefix:d);
-var a5=AudioPool('a$y',maxPlayers:9,prefix:d);
-double get k=>sS.width/5/ts;
+class S{
+static var a1=AudioPool('t1$y',maxPlayers:9);
+static var a2=AudioPool('t2$y',maxPlayers:9);
+static var a3=AudioPool('t3$y',maxPlayers:9);
+static var a4=AudioPool('tk$y',maxPlayers:9);
+static var a5=AudioPool('a$y',maxPlayers:9);
 static get d=>'audio/';
 static get y=>'.mp3';
+}
+enum Dg{tissue,box,none}
+class G extends Game{
+double get k=>sS.width/5/ts;
 var bg=Sprite('bg1');
 var cr=Sprite('c');
 var ip=Offset.zero;
@@ -88,7 +90,7 @@ update(t){
  b.nG();
  }else if(g&&!o){
  var v=u.floor();
- if(v<l&&v<6&&v!=0)Future.delayed(Duration(milliseconds:200),()=>a4.start());
+ if(v<l&&v<6&&v!=0)Future.delayed(Duration(milliseconds:200),()=>S.a4.start());
  l=v;
  }
  o=u<=0&&o?!e:o;
@@ -126,7 +128,7 @@ du(d){
  b.m=e;
  }
 }
-t(i)=>(i==1?a1:i==2?a2:a3).start(volume:0.2);
+t(i)=>(i==1?S.a1:i==2?S.a2:S.a3).start(volume:0.2);
 de(d){
  ip=Offset.zero;
  b.ti.m=!e;
@@ -197,7 +199,7 @@ nB(){
 }
 nG()async{
  a=g.e;
- g.a5.start(volume:0.5);
+ S.a5.start(volume:0.5);
  await Future.delayed(Duration(seconds:2));
  nB();
 }
