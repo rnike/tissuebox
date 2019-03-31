@@ -2,11 +2,11 @@ name: TissueBox
 description: A mobile phone game made by Flutter.
 version: 1.0.0+1
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter
-  flame: "0.10.2"
+  flame: ^0.10.3
   shared_preferences: ^0.5.1+2
 dev_dependencies:
   flutter_test:
@@ -20,11 +20,11 @@ flutter:
     - assets/images/b1
     - assets/images/b2
     - assets/images/t1
-    - assets/audio/sfx/t1.mp3
-    - assets/audio/sfx/t2.mp3
-    - assets/audio/sfx/t3.mp3
-    - assets/audio/sfx/tk.mp3
-    - assets/audio/sfx/a.mp3
+    - assets/audio/t1.mp3
+    - assets/audio/t2.mp3
+    - assets/audio/t3.mp3
+    - assets/audio/tk.mp3
+    - assets/audio/a.mp3
   fonts:
     - family: NS
       fonts:
