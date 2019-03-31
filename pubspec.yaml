@@ -14,19 +14,19 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/crown
+    - assets/images/c
     - assets/images/bg1
-    - assets/images/tb0
-    - assets/images/tb1
-    - assets/images/tb2
-    - assets/images/ts1
-    - assets/audio/ts1
-    - assets/audio/ts2
-    - assets/audio/ts3
+    - assets/images/b0
+    - assets/images/b1
+    - assets/images/b2
+    - assets/images/t1
+    - assets/audio/t1
+    - assets/audio/t2
+    - assets/audio/t3
     - assets/audio/tk
-    - assets/audio/ba
+    - assets/audio/a
   fonts:
-    - family: NotoSans
+    - family: NS
       fonts:
         - asset: assets/fonts/NotoSans-Bold.ttf
           weight: 700

@@ -9,7 +9,10 @@ A mobile phone game made by Flutter.
 	2. [shared_preferences](https://pub.dartlang.org/packages/shared_preferences)
 - Font
 	1. [Noto Sans](https://www.google.com/get/noto/#sans-lgc)
-
+- Images
+    1. Tissue Box - yum6503
+    2. Tissue - yum6503
+    3. Tissue Box - yum6503
 ## Build Info
 ```
 $ flutter --version
@@ -26,5 +29,3 @@ Beat the best to win the crown.
 ## Game Tips
 1. Do not drag the box if it's not empry.
 2. Drag the tissue up as straight as you can to get more points.
-
-
