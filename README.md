@@ -35,10 +35,11 @@ Beat the best to win the crown.
 2. Drag the tissue up as straight as you can to get more points.
 
 ## Readable Code
-The code in lib/ is simplified for Flutter Create 5kb challenge.
+The code in main.dart is simplified for Flutter Create 5kb challenge.
 For those who wants to know how the code works, here is the human readable version of code.
-Simply replace it with main.dart,they are the same. 
-```
+You can simply replace it with main.dart,they are the same. 
+
+```dart
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
