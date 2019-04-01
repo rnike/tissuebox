@@ -44,7 +44,7 @@ Beat the best to win the crown.<img src="https://i.imgur.com/79sMhD1.png" title=
 ## Readable Code
 The code in main.dart is simplified for Flutter Create 5kb challenge.
 For those who wants to know how the code works, here is the human readable version of code.
-You can simply replace it with main.dart,they are functionally same. 
+You can simply replace it with main.dart,they are functionally equal. 
 
 ```dart
 import 'package:shared_preferences/shared_preferences.dart';
@@ -166,7 +166,8 @@ class GameTable extends Game {
     if (g)
       tx(timePass.toStringAsFixed(timePass < 1 ? 1 : 0), TissueBox.getOffset(ct, tissueBox.it + tissueBox.boxRect.height + 10), tru,
           k * 10, tru);
-    tx(heighScore.toString(), TissueBox.getOffset(33.0, k * 30), !tru, k * 12);
+    var heighScoreTxt = heighScore.toString();
+    tx(heighScoreTxt, TissueBox.getOffset(heighScoreTxt.length==1?44.0:heighScoreTxt.length>2?22.0:33.0, k * 30), !tru, k * 12);
     crown.renderRect(c, getRect(28.0, k * 10, 49.2, 39.0));
     tx(score.toString(), TissueBox.getOffset(ct, k * 50), tru, k * 25);
     heighScore = score > heighScore ? score : heighScore;
