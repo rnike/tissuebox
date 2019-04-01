@@ -1,6 +1,8 @@
 # TissueBox
 A mobile phone game made by Flutter.
 
+<img hspace="20" src="https://i.imgur.com/CatwXyt.jpg" title="source: imgur.com" width="200"/><img hspace="20" src="https://i.imgur.com/1o8ECOP.jpg" title="source: imgur.com" width="200"/><img hspace="20" src="https://i.imgur.com/mZWnSob.jpg" title="source: imgur.com" width="200"/>
+
 ## Dependencies
 - Packages
 	1. [flame](https://pub.dartlang.org/packages/flame)
@@ -8,12 +10,12 @@ A mobile phone game made by Flutter.
 - Font
 	1. [Noto Sans](https://www.google.com/get/noto/#sans-lgc)
 - Images
-    1. Tissue Box - yum650350
+    1. Tissue Box 1, 2, 3 - yum650350
     2. Tissue - yum650350
     3. Background - yum650350
     4. Crown - yum650350
 - Audio
-    1. Tissue - yum650350
+    1. Tissue 1, 2, 3 - yum650350
     2. Tick Tock - yum650350
     3. Game Over - yum650350
     
@@ -26,18 +28,23 @@ Engine • revision 3757390fa4
 Tools • Dart 2.1.2 (build 2.1.2-dev.0.0 0a7dcf17eb)
 ```
 ## Game Play
-Beat the best to win the crown.
-1. Drag up tissue to gain point(s).
+Beat the best to win the crown.<img src="https://i.imgur.com/79sMhD1.png" title="source: imgur.com" />
+1. Drag the tissue up straight to start game and gain point(s).
 2. If box is empty, drag it to the right/left to reload.
+3. Don't brake your wrist.
+
+<img src="https://i.imgur.com/Q1kwv3s.png" title="source: imgur.com" />
+<img src="https://i.imgur.com/wuI2cd0.png" title="source: imgur.com" />
 
 ## Game Tips
 1. Do not drag the box if it's not empry.
 2. Drag the tissue up as straight as you can to get more points.
+<img src="https://i.imgur.com/wSlEQw6.png" title="source: imgur.com" />
 
 ## Readable Code
 The code in main.dart is simplified for Flutter Create 5kb challenge.
 For those who wants to know how the code works, here is the human readable version of code.
-You can simply replace it with main.dart,they are the same. 
+You can simply replace it with main.dart,they are functionally same. 
 
 ```dart
 import 'package:shared_preferences/shared_preferences.dart';
