@@ -1,23 +1,8 @@
-# TissueBox
+# [TissueBox](https://github.com/yum650350/tissuebox)
 A mobile phone game made by Flutter.
 
-<img hspace="20" src="https://i.imgur.com/CatwXyt.jpg" title="source: imgur.com" width="200"/><img hspace="20" src="https://i.imgur.com/1o8ECOP.jpg" title="source: imgur.com" width="200"/><img hspace="20" src="https://i.imgur.com/mZWnSob.jpg" title="source: imgur.com" width="200"/>
+![](gameplay.gif)
 
-## Dependencies
-- Packages
-	1. [flame](https://pub.dartlang.org/packages/flame)
-	2. [shared_preferences](https://pub.dartlang.org/packages/shared_preferences)
-- Font
-	1. [Noto Sans](https://www.google.com/get/noto/#sans-lgc)
-- Images
-    1. Tissue Box 1, 2, 3 - yum650350
-    2. Tissue - yum650350
-    3. Background - yum650350
-    4. Crown - yum650350
-- Audio
-    1. Tissue 1, 2, 3 - yum650350
-    2. Tick Tock - yum650350
-    3. Game Over - yum650350
     
 ## Build Info
 ```
@@ -27,24 +12,51 @@ Framework • revision 8661d8aecd (6 weeks ago) • 2019-02-14 19:19:53 -0800
 Engine • revision 3757390fa4
 Tools • Dart 2.1.2 (build 2.1.2-dev.0.0 0a7dcf17eb)
 ```
+
+## Dependencies
+- Packages
+	1. [flame](https://pub.dartlang.org/packages/flame)
+	2. [shared_preferences](https://pub.dartlang.org/packages/shared_preferences)
+- Font
+	1. [Noto Sans](https://www.google.com/get/noto/#sans-lgc)
+	
+## Assets
+Assets are all made by yum650350.
+
+- Images
+    1. Tissue Box (assets\images\0, 1, 2, 3, 4, 5, 6)
+    2. Tissue (assets\images\t)
+    3. Background (assets\images\b)
+    4. Crown (assets\images\c)
+- Audio
+    1. Tissue (assets\audio\s.mp3, d.mp3, t.mp3) 
+    2. Tick Tock (assets\audio\tk.mp3)
+    3. Game Over (assets\audio\a.mp3)
+
 ## Game Play
 Beat the best to win the crown.<img src="https://i.imgur.com/79sMhD1.png" title="source: imgur.com" />
 1. Drag the tissue up straight to start game and gain point(s).
 2. If box is empty, drag it to the right/left to reload.
-3. Don't brake your wrist.
+3. Drag more tissue before time out.
 
-<img src="https://i.imgur.com/Q1kwv3s.png" title="source: imgur.com" />
-<img src="https://i.imgur.com/wuI2cd0.png" title="source: imgur.com" />
+![](instruction1.png)
+
+![](instruction2.png)
 
 ## Game Tips
 1. Do not drag the box if it's not empry.
 2. Drag the tissue up as straight as you can to get more points.
-<img src="https://i.imgur.com/wSlEQw6.png" title="source: imgur.com" />
 
-## Readable Code
-The code in main.dart is simplified for Flutter Create 5kb challenge.
-For those who wants to know how the code works, here is the human readable version of code.
-You can simply replace it with main.dart,they are functionally equal. 
+![](instruction3.png)
+
+## Readable Code 
+This game is built to participate [Flutter Create](https://flutter.dev/create) with a 5kb dart code size restriction.
+
+The last thing I want is to mike it into a single line, unreadable, impenetrable code, but a bug occurred in the package I use according to [this](https://github.com/luanpotter/flame/issues/70), so I had to add lines of code to get rid of this bug, and the code becomes larger then 5kb if it remains understandable.
+
+In order to not give up on Flutter Create, I decided to simplify it.
+
+This game repository is also on [GitHub](https://github.com/yum650350/tissuebox), here is the readable code for those who wants to know how the code works, it functionally equals to main.dart.
 
 ```dart
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,19 +73,29 @@ import 'dart:math';
 main() async {
   var util = Util();
   await util.fullScreen();
-  await util.setOrientation(DeviceOrientation.portraitUp);
-  const mp3 = '.mp3';
+  await util.setOrientation(DeviceOrientation.portraitUp); 
+  //loadimages
+  //tissuebox : 0,1,2,3,4,5,6
+  //background : b
+  //crown : c
+  //tissue : t
   await Flame.images.loadAll(['b', '0', '1', '2', '3', '4', '5', '6', 't', 'c']);
   audioLoad(c) async => (await Flame.audio.load(c)).path;
   setAudio(a, s, v) async {
     await a.setUrl(await audioLoad(s), isLocal: true);
     a.setVolume(v);
   }
-  GameTable.setAudioList(GameTable.audioList1, await audioLoad('s$mp3'));
-  GameTable.setAudioList(GameTable.audioList2, await audioLoad('d$mp3'));
-  GameTable.setAudioList(GameTable.audioList3, await audioLoad('t$mp3'));
-  await setAudio(GameTable.at, 'tk$mp3', 1.0);
-  await setAudio(GameTable.aw, 'a$mp3', .5);
+  //audios
+  //single drag : s.mp3
+  //double drag : s.mp3
+  //triple drag ： s.mp3
+  //tick tock : tk.mp3
+  //game over : a.mp3
+  GameTable.setAudioList(GameTable.audioList1, await audioLoad('s.mp3'));
+  GameTable.setAudioList(GameTable.audioList2, await audioLoad('d.mp3'));
+  GameTable.setAudioList(GameTable.audioList3, await audioLoad('t.mp3'));
+  await setAudio(GameTable.tickTock, 'tk.mp3', 1.0);
+  await setAudio(GameTable.gameOver, 'a.mp3', .5);
   var game = GameTable((await SharedPreferences.getInstance()).getInt('hs') ?? 0);
   var hDrag = HorizontalDragGestureRecognizer();
   var vDrag = VerticalDragGestureRecognizer();
@@ -91,131 +113,136 @@ main() async {
 enum Drag { tissue, box, none }
 
 class GameTable extends Game {
-  static getSprite(g) => Sprite(g);
-  static var at = AudioPlayer(),
-      aw = AudioPlayer(),
+  //audio
+  static var 
+      tickTock = AudioPlayer(),
+      gameOver = AudioPlayer(),
       audioList1 = [AudioPlayer(), AudioPlayer(), AudioPlayer()],
       audioList2 = [AudioPlayer(), AudioPlayer()],
       audioList3 = [AudioPlayer(), AudioPlayer()],
       audioIndex1 = 0,
       audioIndex2 = 0,
       audioIndex3 = 0;
+  static getPlayIndex(int audioPlayer) {
+    if (audioPlayer == 1)
+      audioIndex1 = audioIndex1 < audioList1.length - 1 ? audioIndex1 + 1 : 0;
+    else if (audioPlayer == 2)
+      audioIndex2 = audioIndex2 < audioList2.length - 1 ? audioIndex2 + 1 : 0;
+    else if (audioPlayer == 3) audioIndex3 = audioIndex3 < audioList3.length - 1 ? audioIndex3 + 1 : 0; 
+    return audioPlayer == 1 ? audioIndex1 : audioPlayer == 2 ? audioIndex2 : audioIndex3;
+  }
+  static get tissue1 => audioList1[getPlayIndex(1)];
+  static get tissue2 => audioList2[getPlayIndex(2)];
+  static get tissue3 => audioList3[getPlayIndex(3)];
   static setAudioList(List<AudioPlayer> al,String audioName) => al.forEach((x) {
         x.setUrl(audioName, isLocal: true);
         x.setVolume(.2);
       });
-  var background = getSprite('b'),
-      crown = getSprite('c'),
+  //
+
+
+  var background = Sprite('b'),
+      crown = Sprite('c'),
       initialPoint = Offset.zero,
       destPoint = Offset.zero,
       dragState = Drag.none,
-      g = false,
-      o = false,
+      gameing = false,
+      gameover = false,
       timePass = .0,
       heighScore = 0,
       score = 0,
-      l = 0;
-  static getPlayIndex(a) {
-    if (a == 1)
-      audioIndex1 = audioIndex1 < audioList1.length - 1 ? audioIndex1 + 1 : 0;
-    else if (a == 2)
-      audioIndex2 = audioIndex2 < audioList2.length - 1 ? audioIndex2 + 1 : 0;
-    else if (a == 3) audioIndex3 = audioIndex3 < audioList3.length - 1 ? audioIndex3 + 1 : 0;
-    return a == 1 ? audioIndex1 : a == 2 ? audioIndex2 : audioIndex3;
-  }
+      timePassTemp = 0;
 
-  final tru = true;
-  double ts, point1;
-  double get k => screenSize.width / 5 / ts;
-  static get tissue1 => audioList1[getPlayIndex(1)];
-  static get tissue2 => audioList2[getPlayIndex(2)];
-  static get tissue3 => audioList3[getPlayIndex(3)];
-  static getRect(a, b, c, d) => Rect.fromLTWH(a, b, c, d);
+  double tileSize, point1;
+  double get k => screenSize.width / 5 / tileSize;
   Size screenSize;
   Rect rect;
   TissueBox tissueBox;
-  init() async {
-    resize(await Flame.util.initialDimensions());
-    rect = getRect(.0, screenSize.height - ts * 23, ts * 9, ts * 23);
-    tissueBox = TissueBox(this);
-  }
 
-  sh() async => await (await SharedPreferences.getInstance()).setInt('hs', heighScore);
+  saveHighScore() async => await (await SharedPreferences.getInstance()).setInt('hs', heighScore);
+
   GameTable(this.heighScore) {
     init();
   }
+
+  init() async {
+    resize(await Flame.util.initialDimensions());
+    rect = Rect.fromLTWH(.0, screenSize.height - tileSize * 23, tileSize * 9, tileSize * 23);
+    tissueBox = TissueBox(this);
+  }
+  
   @override
-  render(c) {
-    tx(s, o, u, f) {
-      var t = TextPainter(
+  render(Canvas c) {
+    paintText(txt, offset, center, fontSize) {
+      var painter = TextPainter(
           text: TextSpan(
               style: TextStyle(
                   color: Colors.white,
-                  fontSize: f,
+                  fontSize: fontSize,
                   fontFamily: 'NS'),
-              text: s),
+              text: txt),
           textScaleFactor: k,
           textDirection: TextDirection.ltr);
-      t.layout();
-      t.paint(c, u ? TissueBox.getOffset(o.dx - t.width / 2, o.dy) : o);
+      painter.layout();
+      painter.paint(c, center ? Offset(offset.dx - painter.width / 2, offset.dy) : offset);
     }
 
     background.renderRect(c, rect);
     tissueBox.render(c);
-    var ct = tissueBox.il + tissueBox.boxRect.width / 2;
-    if (g)
-      tx(timePass.toStringAsFixed(timePass < 1 ? 1 : 0) + 's', TissueBox.getOffset(ct + 8, k * 23), tru, k * 10);
+    var horCenter = tissueBox.initialLeft + tissueBox.boxRect.width / 2;
+    if (gameing)
+      paintText(timePass.toStringAsFixed(timePass < 1 ? 1 : 0) + 's', Offset(horCenter + 8, k * 23), true, k * 10);
     var heighScoreTxt = heighScore.toString();
-    tx(heighScoreTxt, TissueBox.getOffset(heighScoreTxt.length==1?44.0:heighScoreTxt.length>2?22.0:33.0, k * 30), !tru, k * 12);
-    crown.renderRect(c, getRect(28.0, k * 10, 49.2, 39.0));
-    tx(score.toString(), TissueBox.getOffset(ct, k * 50), tru, k * 25);
+    paintText(heighScoreTxt, Offset(heighScoreTxt.length==1?44.0:heighScoreTxt.length>2?22.0:33.0, k * 30), false, k * 12);
+    crown.renderRect(c, Rect.fromLTWH(28.0, k * 10, 49.2, 39.0));
+    paintText(score.toString(), Offset(horCenter, k * 50), true, k * 25);
     heighScore = score > heighScore ? score : heighScore;
   }
 
   @override
-  update(t) {
+  update(double t) {
     tissueBox.update(t);
-    timePass -= g || o ? t : 0;
-    if (timePass < 0 && g) {
-      tissueBox.isAway = tru;
-      g = !tru;
+    timePass -= gameing || gameover ? t : 0;
+    if (timePass < 0 && gameing) {
+      tissueBox.isAway = true;
+      gameing = false;
       timePass = 2;
-      o = tru;
-      sh();
+      gameover = true;
+      saveHighScore();
       tissueBox.newGame();
-    } else if (g && !o) {
-      var v = timePass.floor();
-      if (v < l && v < 6 && v != 0)
-        TissueBox.delay(Duration(milliseconds: 300), () => GameTable.at.resume());
-      l = v;
+    } else if (gameing && !gameover) {
+      var floor = timePass.floor();
+      if (floor < timePassTemp && floor < 6 && floor != 0)
+        TissueBox.delay(Duration(milliseconds: 300), () => GameTable.tickTock.resume());
+      timePassTemp = floor;
     }
-    o = timePass <= 0 && o ? !tru : o;
+    gameover = timePass <= 0 && gameover ? false : gameover;
   }
 
   resize(s) {
     screenSize = s;
-    ts = screenSize.width / 9;
+    tileSize = screenSize.width / 9;
   }
 
-  onDragStart(detail) {
-    var p = detail.globalPosition;
-    dragState = tissueBox.tissue.rect.contains(p) ? Drag.tissue : tissueBox.boxRect.contains(p) ? Drag.box : Drag.none;
-    initialPoint = TissueBox.getOffset(p.dx == 0 ? initialPoint.dx : p.dx, p.dy == 0 ? initialPoint.dy : p.dy);
-    point1 = (tissueBox.tissue.rect.left - p.dx).abs();
+  onDragStart(DragStartDetails detail) {
+    var point = detail.globalPosition;
+    dragState = tissueBox.tissue.rect.contains(point) ? Drag.tissue : tissueBox.boxRect.contains(point) ? Drag.box : Drag.none;
+    initialPoint = Offset(point.dx == 0 ? initialPoint.dx : point.dx, point.dy == 0 ? initialPoint.dy : point.dy);
+    point1 = (tissueBox.tissue.rect.left - point.dx).abs();
   }
 
-  onDragUpdate(detail) {
-    if (o || dragState == Drag.none) return;
-    var p = detail.globalPosition;
-    destPoint = TissueBox.getOffset(p.dx == 0 ? destPoint.dx : p.dx, p.dy == 0 ? destPoint.dy : p.dy);
+  onDragUpdate(DragUpdateDetails detail) {
+    if (gameover || dragState == Drag.none) return;
+    var point = detail.globalPosition;
+    destPoint = Offset(point.dx == 0 ? destPoint.dx : point.dx, point.dy == 0 ? destPoint.dy : point.dy);
     if (dragState == Drag.tissue) {
       if (initialPoint.dy - destPoint.dy > 100) {
-        if (g != tru && o != tru) {
-          g = tru;
+        if (gameing != true && gameover != true) {
+          gameing = true;
           timePass = 10;
           score = 0;
         }
-        var sub = (point1 - (tissueBox.tissue.rect.left - p.dx).abs()).abs();
+        var sub = (point1 - (tissueBox.tissue.rect.left - point.dx).abs()).abs();
         var addPoint = sub < 3 ? 3 : sub < 6 ? 2 : 1;
         dragState = Drag.none;
         tissueBox.nextTissue(addPoint);
@@ -223,37 +250,37 @@ class GameTable extends Game {
         score += addPoint;
       }
     } else if (dragState == Drag.box) {
-      tissueBox.boxRect = getRect(tissueBox.il + destPoint.dx - initialPoint.dx, tissueBox.boxRect.top, TissueBox.q.dx, TissueBox.q.dy);
-      tissueBox.ismoving = tru;
+      tissueBox.boxRect = Rect.fromLTWH(tissueBox.initialLeft + destPoint.dx - initialPoint.dx, tissueBox.boxRect.top, TissueBox.boxSize.dx, TissueBox.boxSize.dy);
+      tissueBox.ismoving = true;
     }
   }
 
   playTissueAudio(i) => (i == 1 ? GameTable.tissue1 : i == 2 ? GameTable.tissue2 : GameTable.tissue3).resume();
-  onDragEnd(detail) {
+  onDragEnd(DragEndDetails detail) {
     initialPoint = Offset.zero;
     dragState = Drag.none;
-    tissueBox.tissue.isMoving = !tru;
-    tissueBox.ismoving = !tru;
+    tissueBox.tissue.isMoving = false;
+    tissueBox.ismoving = false;
     destPoint = initialPoint;
   }
 }
 
 class TissueBox {
-  Rect get initialRect => GameTable.getRect(boxRect.center.dx - Tissue.width / 2, boxRect.top - boxRect.height + 19, Tissue.width, Tissue.width);
-  Sprite get getBoxSprite => GameTable.getSprite(  rnd.nextInt(7).toString());
+  Rect get initialRect => Rect.fromLTWH(boxRect.center.dx - Tissue.width / 2, boxRect.top - boxRect.height + 20.3, Tissue.width, Tissue.width);
+  Sprite get getBoxSprite =>Sprite(  rnd.nextInt(7).toString());
   var tissueAwayList = List<TissueAway>(), rnd = Random(), ismoving = false, isAway = false;
-  Offset get u => getOffset(initialRect.left, initialRect.top - 150);
+  Offset get getTissueUpPosition => Offset(initialRect.left, initialRect.top - 150);
   final GameTable game;
   Sprite boxSprite;
   Rect boxRect;
-  int tc;
+  int tissueCount;
   Tissue tissue;
-  double get il => game.screenSize.width / 2 - TissueBox.q.dx / 2;
-  double get it => game.screenSize.height - game.ts * 5.5;
-  static var q = TissueBox.getOffset(150.0, 100.0);
+  double get initialLeft => game.screenSize.width / 2 - TissueBox.boxSize.dx / 2;
+  double get initialTop => game.screenSize.height - game.tileSize * 5.5;
+  static var boxSize = Offset(150.0, 100.0); 
   TissueBox(this.game) {
-    boxRect = GameTable.getRect(il, it, q.dx, q.dy);
-    tc = 10 - rnd.nextInt(5);
+    boxRect = Rect.fromLTWH(initialLeft, initialTop, boxSize.dx, boxSize.dy);
+    tissueCount = 10 - rnd.nextInt(5);
     tissue = Tissue(game, this);
     boxSprite = getBoxSprite;
   }
@@ -263,56 +290,61 @@ class TissueBox {
     tissueAwayList.forEach((x) => x.render(c));
   }
 
-  update(t) {
+  update(double t) {
     tissue.update(t);
     tissueAwayList.removeWhere((x) => x.isAway);
     tissueAwayList.forEach((x) => x.update(t));
-    var v = boxRect.left - il;
-    if (ismoving && !game.o) {
-      if (v.abs() > 50 && tc == 0) isAway = game.tru;
-    } else if (isAway && !game.o) {
-      boxRect = boxRect.shift(getOffset(v > 0 ? boxRect.left + game.k * 11 : boxRect.left - game.k * 11, boxRect.top));
-      if (boxRect.right < -50 || boxRect.left > game.screenSize.width + 50) newBox();
-    } else if (isAway && game.o) {
-      var o = getOffset(boxRect.left, game.screenSize.height + Tissue.width) - getOffset(boxRect.left, boxRect.top);
-      boxRect = boxRect.shift(game.k * 11 < o.distance
-          ? Offset.fromDirection(o.direction, game.k * 11)
-          : o);
+    var distense = boxRect.left - initialLeft;
+    if (ismoving && !game.gameover) {
+      if (distense.abs() > 50 && tissueCount == 0){
+        isAway = true;
+      } 
+    } else if (isAway && !game.gameover) {
+      boxRect = boxRect.shift(Offset(distense > 0 ? boxRect.left + game.k * 11 : boxRect.left - game.k * 11, boxRect.top));
+      if (boxRect.right < -50 || boxRect.left > game.screenSize.width + 50) {
+        newBox();
+      }
+    } else if (isAway && game.gameover) {
+      var target = Offset(boxRect.left, game.screenSize.height + Tissue.width) - Offset(boxRect.left, boxRect.top);
+      boxRect = boxRect.shift(
+        game.k * 11 < target.distance ? 
+            Offset.fromDirection(target.direction, game.k * 11)
+          : target);
     } else {
-      var o = getOffset(il, it) - getOffset(boxRect.left, boxRect.top);
-      boxRect = boxRect.shift(game.k * 11 < o.distance
-          ? Offset.fromDirection(o.direction, game.k * 11)
-          : o);
+      var target = Offset(initialLeft, initialTop) - Offset(boxRect.left, boxRect.top);
+      boxRect = boxRect.shift(
+        game.k * 11 < target.distance ? 
+          Offset.fromDirection(target.direction, game.k * 11)
+          : target);
     }
   }
 
-  static getOffset(x, y) => Offset(x, y);
-  nextTissue(i) {
-    var d = Duration(milliseconds: 100);
+  nextTissue(int pointsAdd) {
+    var duration = Duration(milliseconds: 100);
     tissueAwayList.add(TissueAway(game, this));
-    if (i > 1)
-      delay(d, () {
+    if (pointsAdd > 1)
+      delay(duration, () {
         tissueAwayList.add(TissueAway(game, this));
-        if (i > 2)
-          delay(d, () {
+        if (pointsAdd > 2)
+          delay(duration, () {
             tissueAwayList.add(TissueAway(game, this));
           });
       });
-    tissue = Tissue(game, this, --tc == 0);
+    tissue = Tissue(game, this, --tissueCount == 0);
   }
 
   newBox() {
     boxSprite = getBoxSprite;
-    boxRect = GameTable.getRect(boxRect.right < -0 ? game.screenSize.width + 50 - q.dx : -50.0, it, q.dx, q.dy);
-    tc = 10 - rnd.nextInt(5);
+    boxRect = Rect.fromLTWH(boxRect.right < -0 ? game.screenSize.width + 50 - boxSize.dx : -50.0, initialTop, boxSize.dx, boxSize.dy);
+    tissueCount = 10 - rnd.nextInt(5);
     tissue = Tissue(game, this);
-    isAway = !game.tru;
-    ismoving = !game.tru;
+    isAway = false;
+    ismoving = false;
   }
 
   newGame() async {
-    isAway = game.tru;
-    GameTable.aw.resume();
+    isAway = true;
+    GameTable.gameOver.resume();
     await delay(Duration(seconds: 2), () {});
     newBox();
   }
@@ -321,7 +353,7 @@ class TissueBox {
 }
 
 class Tissue {
-  var tissueSprite = GameTable.getSprite('t'), isMoving = false;
+  var tissueSprite = Sprite('t'), isMoving = false;
   static var width = 100.0;
   final TissueBox tissueBox;
   final GameTable game;
@@ -330,20 +362,20 @@ class Tissue {
   Tissue(this.game, this.tissueBox, [this.isAway = false]) {
     rect = tissueBox.initialRect;
   }
-  render(c) => tissueSprite.renderRect(c, rect);
-  update(t) => rect = isAway ? rect.shift(Offset.infinite) : tissueBox.initialRect;
+  render(Canvas c) => tissueSprite.renderRect(c, rect);
+  update(double t) => rect = isAway ? rect.shift(Offset.infinite) : tissueBox.initialRect;
 }
 
 class TissueAway extends Tissue {
   TissueAway(GameTable game, TissueBox tissueBox) : super(game, tissueBox);
-  render(c) => tissueSprite.renderRect(c, rect);
-  update(t) {
+  render(Canvas c) => tissueSprite.renderRect(c, rect);
+  update(double t) {
     var speed = 500 * t;
-    Offset target = tissueBox.u - TissueBox.getOffset(rect.left, rect.top);
+    Offset target = tissueBox.getTissueUpPosition - Offset(rect.left, rect.top);
     if (speed < target.distance)
       rect = rect.shift(Offset.fromDirection(target.direction, speed));
     else
-      isAway = game.tru;
+      isAway = true;
   }
 }
 ```
