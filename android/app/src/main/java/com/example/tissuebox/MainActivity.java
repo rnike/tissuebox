@@ -1,4 +1,4 @@
-package com.example.tissuebox;
+package yum650350.tissuebox;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
