@@ -63,7 +63,7 @@ main() async {
   await util.fullScreen();
   await util.setOrientation(DeviceOrientation.portraitUp);
   const mp3 = '.mp3';
-  await Flame.images.loadAll(['b', 'b0', 'b1', 'b2', 't', 'c']);
+  await Flame.images.loadAll(['b', '0', '1', '2', '3', '4', '5', '6', 't', 'c']);
   audioLoad(c) async => (await Flame.audio.load(c)).path;
   setAudio(a, s, v) async {
     await a.setUrl(await audioLoad(s), isLocal: true);
@@ -146,11 +146,11 @@ class GameTable extends Game {
   }
   @override
   render(c) {
-    tx(s, o, u, f, [b = false]) {
+    tx(s, o, u, f) {
       var t = TextPainter(
           text: TextSpan(
               style: TextStyle(
-                  color: b ? Colors.black : Colors.white,
+                  color: Colors.white,
                   fontSize: f,
                   fontFamily: 'NS'),
               text: s),
@@ -164,8 +164,7 @@ class GameTable extends Game {
     tissueBox.render(c);
     var ct = tissueBox.il + tissueBox.boxRect.width / 2;
     if (g)
-      tx(timePass.toStringAsFixed(timePass < 1 ? 1 : 0), TissueBox.getOffset(ct, tissueBox.it + tissueBox.boxRect.height + 10), tru,
-          k * 10, tru);
+      tx(timePass.toStringAsFixed(timePass < 1 ? 1 : 0) + 's', TissueBox.getOffset(ct + 8, k * 23), tru, k * 10);
     var heighScoreTxt = heighScore.toString();
     tx(heighScoreTxt, TissueBox.getOffset(heighScoreTxt.length==1?44.0:heighScoreTxt.length>2?22.0:33.0, k * 30), !tru, k * 12);
     crown.renderRect(c, getRect(28.0, k * 10, 49.2, 39.0));
@@ -241,7 +240,7 @@ class GameTable extends Game {
 
 class TissueBox {
   Rect get initialRect => GameTable.getRect(boxRect.center.dx - Tissue.width / 2, boxRect.top - boxRect.height + 19, Tissue.width, Tissue.width);
-  Sprite get getBoxSprite => GameTable.getSprite('b' + rnd.nextInt(3).toString());
+  Sprite get getBoxSprite => GameTable.getSprite(  rnd.nextInt(7).toString());
   var tissueAwayList = List<TissueAway>(), rnd = Random(), ismoving = false, isAway = false;
   Offset get u => getOffset(initialRect.left, initialRect.top - 150);
   final GameTable game;

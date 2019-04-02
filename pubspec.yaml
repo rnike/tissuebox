@@ -16,9 +16,13 @@ flutter:
   assets:
     - assets/images/c
     - assets/images/b
-    - assets/images/b0
-    - assets/images/b1
-    - assets/images/b2
+    - assets/images/0
+    - assets/images/1
+    - assets/images/2
+    - assets/images/3
+    - assets/images/4
+    - assets/images/5
+    - assets/images/6
     - assets/images/t
     - assets/audio/s.mp3
     - assets/audio/d.mp3
